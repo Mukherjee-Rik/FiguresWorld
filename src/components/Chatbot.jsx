@@ -108,9 +108,14 @@ function getIntent(text, products, categories) {
     name: intent.name,
     score: intent.terms.reduce((sum, term) => sum + (hasTerm(normalized, term) ? 1 : 0), 0),
   }))
+  const productScore = scores.find((intent) => intent.name === 'product')
+
+  if (getPriceFilter(normalized)) {
+    productScore.score += 3
+  }
 
   if (categories.some((category) => normalized.includes(category.toLowerCase()))) {
-    scores.find((intent) => intent.name === 'product').score += 2
+    productScore.score += 2
   }
 
   if (
@@ -119,7 +124,7 @@ function getIntent(text, products, categories) {
       return firstWord && normalized.includes(firstWord)
     })
   ) {
-    scores.find((intent) => intent.name === 'product').score += 2
+    productScore.score += 2
   }
 
   scores.sort((a, b) => b.score - a.score)
@@ -185,9 +190,18 @@ function getProductReply(message, products, categories) {
   }
 
   const matches = getMatchingProducts(message, products, categories)
+  const priceFilter = getPriceFilter(message)
   const visible = matches.slice(0, 5)
 
   if (matches.length === 0) {
+    if (priceFilter?.type === 'max') {
+      return `No products under ${formatPrice(priceFilter.value)} right now.`
+    }
+
+    if (priceFilter?.type === 'min') {
+      return `No products above ${formatPrice(priceFilter.value)} right now.`
+    }
+
     const categoryHint = categories.length > 0 ? categories.join(', ') : 'a product category'
     return `I could not find a matching figure for that yet. Try ${categoryHint}, in-stock figures, limited figures, or a budget like "under 5000".`
   }

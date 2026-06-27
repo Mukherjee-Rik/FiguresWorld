@@ -125,10 +125,6 @@ export default function Cart() {
           <button className="btn btn-whatsapp" onClick={handleOrder}>
             <span>💬</span> Order on WhatsApp
           </button>
-          <p className="wa-note">
-            Sends to: <code>+{WHATSAPP_NUMBER}</code> — replace this number in{' '}
-            <code>src/utils/whatsapp.js</code>
-          </p>
         </div>
       </div>
     </div>
