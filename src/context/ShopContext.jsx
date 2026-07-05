@@ -27,10 +27,8 @@ export function ShopProvider({ children }) {
   const [catalogError, setCatalogError] = useState('')
   // Cart
   const [cart, setCart] = useState(() => loadFromStorage(STORAGE_KEYS.CART, []))
-  // Admin auth
-  const [isAdmin, setIsAdmin] = useState(() =>
-    loadFromStorage(STORAGE_KEYS.ADMIN_AUTH, false)
-  )
+  // Admin auth is intentionally not persisted, so /admin always asks for a password on a fresh visit.
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const refreshCatalog = useCallback(async () => {
     setCatalogLoading(true)
@@ -54,7 +52,6 @@ export function ShopProvider({ children }) {
 
   // Persist per-visitor state only.
   useEffect(() => saveToStorage(STORAGE_KEYS.CART, cart), [cart])
-  useEffect(() => saveToStorage(STORAGE_KEYS.ADMIN_AUTH, isAdmin), [isAdmin])
 
   const products = useMemo(() => [...customProducts], [customProducts])
 

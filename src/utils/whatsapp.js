@@ -1,5 +1,5 @@
 // WhatsApp number — REPLACE WITH YOUR REAL NUMBER (include country code, no + or spaces)
-export const WHATSAPP_NUMBER = '918787458797'
+export const WHATSAPP_NUMBER = '918557036371'
 
 export const buildOrderMessage = ({ customer, items, total }) => {
   const lines = []

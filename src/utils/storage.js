@@ -1,7 +1,6 @@
 // LocalStorage helpers
 export const STORAGE_KEYS = {
   CART: 'fw_cart',
-  ADMIN_AUTH: 'fw_admin_auth',
   CATALOG_PRODUCTS: 'fw_catalog_products',
   CATALOG_CATEGORIES: 'fw_catalog_categories',
 }

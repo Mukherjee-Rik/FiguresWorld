@@ -46,7 +46,7 @@ export default function Admin() {
           </p>
           <input
             type="password"
-            placeholder="Password (hint: admin123)"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={(e) => {
@@ -372,19 +372,25 @@ export default function Admin() {
           <div className="cat-list">
             {categories.map((c) => {
               const isCustom = customCategories.includes(c)
+              const productCount = products.filter((product) => product.category === c).length
+              const canDelete = isCustom && productCount === 0
               return (
                 <div key={c} className="cat-row">
-                  <span>{c}</span>
+                  <span>{c}{productCount > 0 ? ` (${productCount} products)` : ''}</span>
                   <button
                     className="btn-mini btn-danger"
                     onClick={() => {
+                      if (productCount > 0) {
+                        alert('This category is used by existing products. Move or delete those products first.')
+                        return
+                      }
                       if (confirm(`Delete category "${c}"?`)) {
                         deleteCategory(c).catch((error) => {
                           alert(error.message || 'Could not delete category from backend.')
                         })
                       }
                     }}
-                    disabled={!isCustom}
+                    disabled={!canDelete}
                   >
                     Delete
                   </button>
