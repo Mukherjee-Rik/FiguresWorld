@@ -186,7 +186,7 @@ function getMatchingProducts(message, products, categories) {
 
 function getProductReply(message, products, categories) {
   if (products.length === 0) {
-    return 'No products are listed right now. Add products from the admin panel, then I can help customers search them.'
+    return 'No products are listed right now. Please check back soon.'
   }
 
   const matches = getMatchingProducts(message, products, categories)

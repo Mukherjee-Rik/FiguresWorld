@@ -13,7 +13,6 @@ export default function Footer() {
           <Link to="/">Home</Link>
           <Link to="/shop">Shop</Link>
           <Link to="/cart">Cart</Link>
-          <Link to="/admin">Admin</Link>
         </div>
         <div>
           <h4>Support</h4>
