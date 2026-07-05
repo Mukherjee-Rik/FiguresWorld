@@ -147,7 +147,7 @@ export function ShopProvider({ children }) {
 
   // --- Admin auth ---
   const loginAdmin = (password) => {
-    if (password === 'suman@sarkar') {
+    if (password === 'sumit@sarkar') {
       setIsAdmin(true)
       return true
     }

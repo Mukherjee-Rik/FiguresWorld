@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useShop } from '../context/ShopContext.jsx'
 import { formatPrice } from '../utils/storage.js'
@@ -48,6 +48,23 @@ export default function ProductDetails() {
   const product = products.find((p) => p.id === id)
   const [activeImg, setActiveImg] = useState(0)
   const [qty, setQty] = useState(1)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+
+  useEffect(() => {
+    if (!lightboxOpen) return
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setLightboxOpen(false)
+    }
+
+    document.addEventListener('keydown', closeOnEscape)
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape)
+      document.body.style.overflow = ''
+    }
+  }, [lightboxOpen])
 
   if (!product) {
     return (
@@ -75,7 +92,14 @@ export default function ProductDetails() {
         <div className="pd-gallery">
           <div className="pd-main-img">
             {product.images?.[activeImg] ? (
-              <img src={product.images[activeImg]} alt={product.name} />
+              <button
+                type="button"
+                className="pd-image-open"
+                onClick={() => setLightboxOpen(true)}
+                aria-label="Open product image full screen"
+              >
+                <img src={product.images[activeImg]} alt={product.name} />
+              </button>
             ) : (
               <div className="no-img">No Image</div>
             )}
@@ -151,6 +175,30 @@ export default function ProductDetails() {
             ))}
           </div>
         </section>
+      )}
+
+      {lightboxOpen && product.images?.[activeImg] && (
+        <div
+          className="image-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${product.name} full screen image`}
+          onClick={() => setLightboxOpen(false)}
+        >
+          <button
+            type="button"
+            className="image-lightbox-close"
+            onClick={() => setLightboxOpen(false)}
+            aria-label="Close full screen image"
+          >
+            ×
+          </button>
+          <img
+            src={product.images[activeImg]}
+            alt={product.name}
+            onClick={(event) => event.stopPropagation()}
+          />
+        </div>
       )}
     </div>
   )

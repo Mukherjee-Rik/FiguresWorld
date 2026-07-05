@@ -41,7 +41,7 @@ export default function Admin() {
         <div className="login-card">
           <h1>Admin <span className="gradient-text">Access</span></h1>
           <p className="login-note">
-            😊 Hello <strong>Suman Ji</strong> 
+            😊 Hello <strong>Sumit Ji</strong> 
             <br /> Welcome Back
           </p>
           <input
